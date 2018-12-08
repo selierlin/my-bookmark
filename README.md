@@ -186,3 +186,24 @@ source /home/lcq/schema.sql; // 执行schema.sql文件创建数据库表格。�
 -----------
 [MIT License](http://www.opensource.org/licenses/MIT)    
 你可以随意使用此项目，无需通知我，因为我可能很忙没时间。   
+
+10 个别问题
+-----------
+1. 使用命令node ./bin/www时出现 SyntaxError: Unexpected token
+  解决：修改nodejs的版本，可以高于项目中测试的那个版本，我测试8.11.4成功
+
+2. 无法导入大于1M的文件
+  解决：由于nginx有默认的上传文件大小，所以需要对nginx的配置文件进行修改
+  修改conf/nginx.conf
+  
+```
+打开nginx主配置文件nginx.conf，一般在/usr/local/nginx/conf/nginx.conf这个位置，找到http{}段并修改以下内容
+
+client_max_body_size 10m;    10M为允许的文件大小
+
+修改后，测试nginx配置是否正确    ./nginx -t 
+
+测试配置正确后，重启nginx使配置生效    ./nginx -s reload 重新加载配置文件
+
+```
+
